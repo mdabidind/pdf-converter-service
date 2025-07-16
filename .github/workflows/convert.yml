@@ -1,1 +1,36 @@
+name: PDF to Word Conversion
 
+on:
+  workflow_dispatch:
+    inputs:
+      pdf_url:
+        description: 'PDF file URL'
+        required: true
+      unique_id:
+        description: 'Unique job ID'
+        required: true
+
+jobs:
+  convert:
+    runs-on: windows-latest  # Required for EXE files
+    
+    steps:
+    - uses: actions/checkout@v3
+      
+    - name: Setup environment
+      run: |
+        mkdir input
+        mkdir output
+        
+    - name: Download PDF
+      run: python scripts/download.py "${{ inputs.pdf_url }}" "input/${{ inputs.unique_id }}.pdf"
+      
+    - name: Convert PDF to Word
+      run: |
+        bin/converter.exe "input/${{ inputs.unique_id }}.pdf" "output/${{ inputs.unique_id }}.docx"
+        
+    - name: Upload result
+      uses: actions/upload-artifact@v3
+      with:
+        name: converted-file
+        path: output/${{ inputs.unique_id }}.docx
