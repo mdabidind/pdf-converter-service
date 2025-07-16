@@ -1,1 +1,5 @@
-
+*.pdf
+*.docx
+__pycache__/
+*.env
+*.log
