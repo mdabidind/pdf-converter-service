@@ -1,0 +1,4 @@
+- name: Download converter
+  run: |
+    curl -L https://github.com/yourusername/pdf-converter-service/releases/download/v1.0.0/converter.exe -o bin/converter.exe
+    chmod +x bin/converter.exe
